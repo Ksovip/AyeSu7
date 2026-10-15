@@ -1,9 +1,10 @@
+အပေါ်ဆုံးခေါင်းစဉ်မှ "စက်ချုပ်ဆိုင် အတိုင်းအတာနှင့် အပ်ထည်မှတ်တမ်း" နှင့် "အတိုင်းအတာ၊ ရက်ချိန်း၊ ချုပ်ခစာရင်း နှင့် ဘောင်ချာ စီမံခန့်ခွဲမှုစနစ်" ဆိုသည့် စာသားနှစ်ကြောင်းလုံးကို ဖြုတ်ပေးထားပါသည်။
 <!DOCTYPE html>
 <html lang="my">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>စက်ချုပ်ဆိုင် အတိုင်းအတာနှင့် အပ်ထည်စီမံခန့်ခွဲမှုစနစ်</title>
+    <title>မှတ်စု</title>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -33,38 +34,13 @@
             background: linear-gradient(135deg, #f0f4ff 0%, #fdf2f8 100%);
             color: var(--dark);
             min-height: 100vh;
+            padding-top: 10px;
             padding-bottom: 50px;
-        }
-
-        /* Header */
-        .app-header {
-            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
-            color: white;
-            padding: 22px 20px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
-            position: sticky;
-            top: 0;
-            z-index: 50;
-        }
-
-        .app-header h1 {
-            font-size: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 4px;
-        }
-
-        .app-header p {
-            font-size: 13px;
-            opacity: 0.9;
         }
 
         .main-wrapper {
             max-width: 1100px;
-            margin: 20px auto;
+            margin: 15px auto;
             padding: 0 15px;
         }
 
@@ -673,12 +649,6 @@
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="app-header">
-        <h1><i class="fa-solid fa-scissors"></i> စက်ချုပ်ဆိုင် အတိုင်းအတာနှင့် အပ်ထည်မှတ်တမ်း</h1>
-        <p>အတိုင်းအတာ၊ ရက်ချိန်း၊ ချုပ်ခစာရင်း နှင့် ဘောင်ချာ စီမံခန့်ခွဲမှုစနစ်</p>
-    </header>
-
     <div class="main-wrapper">
 
         <!-- Dashboard Summary Cards -->
@@ -788,7 +758,7 @@
                         </div>
                     </div>
 
-                    <!-- Main 4 requested by user -->
+                    <!-- Main 4 -->
                     <div class="grid-2">
                         <div class="form-group">
                             <label><i class="fa-solid fa-child-reaching"></i> ရင် *</label>
@@ -808,10 +778,10 @@
                         </div>
                     </div>
 
-                    <!-- Additional essential measurements -->
+                    <!-- Additional measurements -->
                     <div class="grid-3">
                         <div class="form-group">
-                            <label><i class="fa-solid fa-arrows-Left-right-to-line"></i> ပခုံး</label>
+                            <label><i class="fa-solid fa-arrows-left-right-to-line"></i> ပခုံး</label>
                             <input type="text" id="shoulder" class="measure-input" placeholder="14">
                         </div>
                         <div class="form-group">
@@ -952,10 +922,8 @@
         let currentStatusFilter = 'အားလုံး';
         let currentReceiptText = '';
 
-        // ယနေ့ရက်စွဲကို Default ထည့်ပေးထားရန်
         document.getElementById('orderDate').valueAsDate = new Date();
 
-        // နောက်ဆုံးနှိပ်ထားသော အတိုင်းအတာ အကွက်ကို မှတ်ထားရန် (¼, ½, ¾ ထည့်ရန်အတွက်)
         document.querySelectorAll('.measure-input').forEach(input => {
             input.addEventListener('focus', function() {
                 activeMeasureInput = this;
@@ -969,7 +937,6 @@
             }
         }
 
-        // ချုပ်ခ နှင့် စရန်ငွေမှ ကျန်ငွေကို အလိုအလျောက် တွက်ပေးရန်
         function calcBalance() {
             const total = parseFloat(document.getElementById('totalPrice').value) || 0;
             const advance = parseFloat(document.getElementById('advancePaid').value) || 0;
@@ -977,7 +944,6 @@
             document.getElementById('balanceDue').value = balance;
         }
 
-        // ဓာတ်ပုံကို ဆိုဒ်ချုံ့ပြီး Base64 ပြောင်းရန်
         function handlePhotoUpload(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -1019,7 +985,6 @@
             document.getElementById('photoPreviewWrapper').style.display = 'none';
         }
 
-        // LocalStorage မှ စာရင်းယူရန် (နမူနာလူစာရင်း လုံးဝမပါဝင်ပါ)
         function getRecords() {
             return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
         }
@@ -1036,13 +1001,11 @@
             renderRecords();
         }
 
-        // Dashboard နှင့် စာရင်းများကို ဖော်ပြရန်
         function renderRecords() {
             const records = getRecords();
             const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
             const listContainer = document.getElementById('recordsList');
 
-            // Update Stats
             const activeCount = records.filter(r => r.status === 'မညှပ်ရသေး' || r.status === 'ချုပ်နေဆဲ').length;
             const readyCount = records.filter(r => r.status === 'ချုပ်ပြီး').length;
             const totalBalance = records.reduce((sum, r) => {
@@ -1055,7 +1018,6 @@
             document.getElementById('statBalance').textContent = `${totalBalance.toLocaleString()} ကျပ်`;
             document.getElementById('recordCountBadge').textContent = `${records.length} ဦး`;
 
-            // Filter records
             const filtered = records.map((rec, idx) => ({ ...rec, originalIndex: idx })).filter(rec => {
                 const matchesSearch = rec.name.toLowerCase().includes(searchQuery) ||
                                       (rec.phone && rec.phone.includes(searchQuery));
@@ -1150,7 +1112,6 @@
             });
         }
 
-        // ဖောင် Submit လုပ်ခြင်း (အသစ်သိမ်း / ပြန်ပြင်)
         document.getElementById('tailorForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -1252,7 +1213,6 @@
             }
         }
 
-        // ဘောင်ချာ ထုတ်ပေးခြင်း
         function openReceipt(index) {
             const rec = getRecords()[index];
             if (!rec) return;
@@ -1291,7 +1251,6 @@
             });
         }
 
-        // Data Backup (Export & Import)
         function exportData() {
             const records = getRecords();
             if (records.length === 0) {
@@ -1324,8 +1283,8 @@
             reader.readAsText(file);
         }
 
-        // စတင်ဖွင့်ချိန်တွင် စာရင်းပြရန်
-       renderRecords();
+        renderRecords();
     </script>
 </body>
 </html>
+
