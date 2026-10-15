@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>စက်ချုပ်ဆိုင် အတိုင်းအတာနှင့် အပ်ထည်စီမံခန့်ခွဲမှုစနစ်</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --primary-light: #eef2ff;
+            --secondary: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Pyidaungsu', 'Myanmar Text', 'Noto Sans Myanmar', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f4ff 0%, #fdf2f8 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
+            color: white;
+            padding: 22px 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .app-header h1 {
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .app-header p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .main-wrapper {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        /* Dashboard Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 14px;
+            padding: 15px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .stat-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .stat-info h4 {
+            font-size: 12px;
+            color: var(--gray);
+            font-weight: normal;
+        }
+
+        .stat-info p {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        /* Backup Toolbar */
+        .toolbar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-tool {
+            background: white;
+            border: 1px solid var(--border);
+            color: var(--dark);
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            transition: all 0.2s;
+        }
+
+        .btn-tool:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        /* Layout Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (min-width: 860px) {
+            .content-grid {
+                grid-template-columns: 440px 1fr;
+                align-items: start;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--dark);
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-title span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-badge {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 8px;
+            margin: 18px 0 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 5px;
+        }
+
+        .form-group label i {
+            color: var(--primary);
+            width: 16px;
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="tel"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            background: var(--light);
+            color: var(--dark);
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        /* Fraction Helper Bar */
+        .fraction-bar {
+            background: #fdf2f8;
+            border: 1px dashed #f472b6;
+            padding: 8px 12px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .fraction-bar span {
+            font-size: 12px;
+            color: #be185d;
+            font-weight: 600;
+        }
+
+        .fraction-btns {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-frac {
+            background: white;
+            border: 1px solid #f472b6;
+            color: #be185d;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-frac:hover {
+            background: #ec4899;
+            color: white;
+        }
+
+        /* Photo Upload */
+        .photo-upload-box {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            background: var(--light);
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .photo-upload-box:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .photo-preview-wrapper {
+            margin-top: 10px;
+            display: none;
+            position: relative;
+            width: 100%;
+            max-height: 180px;
+            overflow: hidden;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .photo-preview-wrapper img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .btn-remove-photo {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Buttons */
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            padding: 13px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-cancel {
+            width: 100%;
+            background: #f1f5f9;
+            color: var(--gray);
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+            display: none;
+        }
+
+        /* Filter & Search Bar */
+        .filter-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .search-box input {
+            padding-left: 38px;
+            background: white;
+        }
+
+        .status-tabs {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .tab-btn {
+            background: var(--light);
+            border: 1px solid var(--border);
+            color: var(--gray);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Record Card */
+        .record-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .record-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .customer-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .customer-phone {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+            color: var(--primary);
+            text-decoration: none;
+            background: var(--primary-light);
+            padding: 3px 10px;
+            border-radius: 15px;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            font-size: 12px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-မညှပ်ရသေး { background: #fef3c7; color: #b45309; }
+        .status-ချုပ်နေဆဲ { background: #dbeafe; color: #1d4ed8; }
+        .status-ချုပ်ပြီး { background: #d1fae5; color: #047857; }
+        .status-လာရွေးပြီး { background: #f1f5f9; color: #475569; }
+
+        /* Measurements Display inside Card */
+        .m-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 8px;
+            background: var(--light);
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .m-item {
+            font-size: 13px;
+            color: var(--gray);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .m-item strong {
+            font-size: 14px;
+            color: var(--dark);
+        }
+
+        /* Financial & Date Strip */
+        .meta-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-between;
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        .balance-due {
+            color: var(--danger);
+            font-weight: bold;
+        }
+
+        .balance-paid {
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .record-photo-note {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .record-thumb {
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .record-note-box {
+            flex: 1;
+            background: #f8fafc;
+            border-left: 3px solid var(--primary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #334155;
+        }
+
+        /* Action Buttons on Card */
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .action-group {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-action {
+            border: none;
+            padding: 7px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.15s;
+        }
+
+        .btn-receipt { background: #eef2ff; color: var(--primary); }
+        .btn-edit { background: #fef3c7; color: #d97706; }
+        .btn-delete { background: #fee2e2; color: var(--danger); }
+
+        .btn-action:hover { opacity: 0.85; transform: translateY(-1px); }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 45px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            color: #cbd5e1;
+            margin-bottom: 12px;
+        }
+
+        /* Modal (Receipt & Image Preview) */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 15px;
+        }
+
+        .modal-box {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .receipt-paper {
+            border: 2px dashed #cbd5e1;
+            padding: 18px;
+            border-radius: 12px;
+            background: #fffdf9;
+        }
+
+        .receipt-header {
+            text-align: center;
+            border-bottom: 1px dashed #cbd5e1;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        @media print {
+            body * { visibility: hidden; }
+            #receiptModal, #receiptModal * { visibility: visible; }
+            #receiptModal { position: absolute; left: 0; top: 0; background: none; }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="app-header">
+        <h1><i class="fa-solid fa-scissors"></i> စက်ချုပ်ဆိုင် အတိုင်းအတာနှင့် အပ်ထည်မှတ်တမ်း</h1>
+        <p>အတိုင်းအတာ၊ ရက်ချိန်း၊ ချုပ်ခစာရင်း နှင့် ဘောင်ချာ စီမံခန့်ခွဲမှုစနစ်</p>
+    </header>
+
+    <div class="main-wrapper">
+
+        <!-- Dashboard Summary Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#eef2ff; color:#4f46e5;">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <h4>စုစုပေါင်း အပ်ထည်</h4>
+                    <p id="statTotal">0 ခု</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#dbeafe; color:#1d4ed8;">
+                    <i class="fa-solid fa-shirt"></i>
+                </div>
+                <div class="stat-info">
+                    <h4>ချုပ်ရန်ကျန် / ချုပ်နေဆဲ</h4>
+                    <p id="statActive">0 ခု</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#d1fae5; color:#047857;">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="stat-info">
+                    <h4>ချုပ်ပြီးသား</h4>
+                    <p id="statReady">0 ခု</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#fee2e2; color:#ef4444;">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <div class="stat-info">
+                    <h4>ရရန်ကျန်ငွေ စုစုပေါင်း</h4>
+                    <p id="statBalance">0 ကျပ်</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Backup Toolbar -->
+        <div class="toolbar">
+            <button class="btn-tool" onclick="exportData()">
+                <i class="fa-solid fa-download" style="color:#4f46e5;"></i> စာရင်းသိမ်းမည် (Backup)
+            </button>
+            <label class="btn-tool" style="cursor:pointer;">
+                <i class="fa-solid fa-upload" style="color:#10b981;"></i> စာရင်းပြန်ထည့်မည် (Restore)
+                <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(event)">
+            </label>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="content-grid">
+
+            <!-- Left Column: Input Form -->
+            <div class="card">
+                <div class="card-title">
+                    <span id="formTitle"><i class="fa-solid fa-file-circle-plus" style="color:var(--primary);"></i> အပ်ထည်အသစ် မှတ်သားရန်</span>
+                </div>
+
+                <form id="tailorForm">
+                    <input type="hidden" id="editIndex" value="-1">
+
+                    <!-- 1. Customer & Dates -->
+                    <div class="section-badge">
+                        <i class="fa-solid fa-user-tag"></i> (၁) အပ်ထည်ရှင် နှင့် ရက်ချိန်း
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-user"></i> အမည် *</label>
+                            <input type="text" id="name" placeholder="အပ်ထည်ရှင် အမည်" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-phone"></i> ဖုန်းနံပါတ်</label>
+                            <input type="tel" id="phone" placeholder="09xxxxxxxxx">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-calendar-plus"></i> အပ်သည့်ရက်</label>
+                            <input type="date" id="orderDate">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-calendar-check"></i> ရက်ချိန်း (ရမည့်ရက်)</label>
+                            <input type="date" id="dueDate">
+                        </div>
+                    </div>
+
+                    <!-- 2. Measurements -->
+                    <div class="section-badge">
+                        <i class="fa-solid fa-ruler-combined"></i> (၂) အတိုင်းအတာများ (လက်မ)
+                    </div>
+
+                    <div class="fraction-bar">
+                        <span><i class="fa-solid fa-wand-magic-sparkles"></i> အပိုင်းဂဏန်း အမြန်ထည့်ရန်:</span>
+                        <div class="fraction-btns">
+                            <button type="button" class="btn-frac" onclick="insertFraction(' ¼')">+ ¼</button>
+                            <button type="button" class="btn-frac" onclick="insertFraction(' ½')">+ ½</button>
+                            <button type="button" class="btn-frac" onclick="insertFraction(' ¾')">+ ¾</button>
+                        </div>
+                    </div>
+
+                    <!-- Main 4 requested by user -->
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-child-reaching"></i> ရင် *</label>
+                            <input type="text" id="chest" class="measure-input" placeholder="ဥပမာ - 34" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-hand"></i> လက် *</label>
+                            <input type="text" id="sleeve" class="measure-input" placeholder="ဥပမာ - 18" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-arrows-left-right"></i> ခါး *</label>
+                            <input type="text" id="waist" class="measure-input" placeholder="ဥပမာ - 28" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-person-dress"></i> တင် *</label>
+                            <input type="text" id="hip" class="measure-input" placeholder="ဥပမာ - 36" required>
+                        </div>
+                    </div>
+
+                    <!-- Additional essential measurements -->
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-arrows-Left-right-to-line"></i> ပခုံး</label>
+                            <input type="text" id="shoulder" class="measure-input" placeholder="14">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-arrows-up-down"></i> အင်္ကျီအရှည်</label>
+                            <input type="text" id="topLength" class="measure-input" placeholder="24">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-circle-notch"></i> ချိုင်း/လက်မောင်း</label>
+                            <input type="text" id="armhole" class="measure-input" placeholder="16">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-ring"></i> လက်ဝ</label>
+                            <input type="text" id="cuff" class="measure-input" placeholder="10">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-user-tie"></i> လည်ပင်း</label>
+                            <input type="text" id="neck" class="measure-input" placeholder="15">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-ruler-vertical"></i> ထမီ/ဘောင်းဘီရှည်</label>
+                            <input type="text" id="bottomLength" class="measure-input" placeholder="38">
+                        </div>
+                    </div>
+
+                    <!-- 3. Financials & Status -->
+                    <div class="section-badge">
+                        <i class="fa-solid fa-coins"></i> (၃) ချုပ်ခစာရင်း နှင့် အခြေအနေ
+                    </div>
+
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-tag"></i> ချုပ်ခ (ကျပ်)</label>
+                            <input type="number" id="totalPrice" placeholder="0" oninput="calcBalance()">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-hand-holding-dollar"></i> စရန်ငွေ</label>
+                            <input type="number" id="advancePaid" placeholder="0" oninput="calcBalance()">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-calculator"></i> ကျန်ငွေ</label>
+                            <input type="number" id="balanceDue" placeholder="0" readonly style="background:#f1f5f9; font-weight:bold; color:var(--danger);">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-bars-progress"></i> အပ်ထည် အခြေအနေ</label>
+                        <select id="status">
+                            <option value="မညှပ်ရသေး">✂️ မညှပ်ရသေး</option>
+                            <option value="ချုပ်နေဆဲ">🧵 ချုပ်နေဆဲ</option>
+                            <option value="ချုပ်ပြီး">✅ ချုပ်ပြီး (လာယူရန်ကျန်)</option>
+                            <option value="လာရွေးပြီး">🛍️ လာရွေးပြီး</option>
+                        </select>
+                    </div>
+
+                    <!-- 4. Photo & Special Note -->
+                    <div class="section-badge">
+                        <i class="fa-solid fa-camera-retro"></i> (၄) ပိတ်စ/ဒီဇိုင်းပုံ နှင့် မှတ်စု
+                    </div>
+
+                    <div class="form-group">
+                        <label class="photo-upload-box" for="photoInput">
+                            <i class="fa-solid fa-cloud-arrow-up" style="font-size:22px; color:var(--primary); margin-bottom:4px;"></i>
+                            <div style="font-size:13px; color:var(--dark); font-weight:600;">ပိတ်စ သို့မဟုတ် ဒီဇိုင်းပုံ ထည့်ရန်နှိပ်ပါ</div>
+                            <div style="font-size:11px; color:var(--gray);">ဖုန်းကင်မရာ သို့မဟုတ် Gallery မှ ရွေးနိုင်ပါသည်</div>
+                            <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
+                        </label>
+                        <div class="photo-preview-wrapper" id="photoPreviewWrapper">
+                            <img id="photoPreview" src="" alt="Preview">
+                            <button type="button" class="btn-remove-photo" onclick="removePhoto()"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-note-sticky"></i> အထူးမှတ်စု (ဒီဇိုင်းပုံစံ / အသေးစိတ်)</label>
+                        <textarea id="note" rows="3" placeholder="အင်္ကျီဒီဇိုင်း၊ ကြယ်သီးပုံစံ၊ သတိထားရမည့်အချက်များ ရေးမှတ်ရန်..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <i class="fa-solid fa-floppy-disk"></i> မှတ်တမ်း သိမ်းဆည်းမည်
+                    </button>
+                    <button type="button" class="btn-cancel" id="cancelBtn" onclick="resetFormState()">
+                        မပြင်တော့ပါ (Cancel)
+                    </button>
+                </form>
+            </div>
+
+            <!-- Right Column: Saved Records List -->
+            <div class="card">
+                <div class="card-title">
+                    <span><i class="fa-solid fa-clipboard-list" style="color:var(--primary);"></i> သိမ်းဆည်းထားသော အပ်ထည်စာရင်းများ</span>
+                    <span id="recordCountBadge" style="font-size:13px; background:var(--primary-light); color:var(--primary); padding:4px 10px; border-radius:20px;">0 ဦး</span>
+                </div>
+
+                <!-- Search & Status Filter -->
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchInput" placeholder="အမည် သို့မဟုတ် ဖုန်းနံပါတ်ဖြင့် ရှာဖွေပါ..." oninput="renderRecords()">
+                    </div>
+                    <div class="status-tabs">
+                        <button class="tab-btn active" onclick="setStatusFilter('အားလုံး', this)">အားလုံး</button>
+                        <button class="tab-btn" onclick="setStatusFilter('မညှပ်ရသေး', this)">✂️ မညှပ်ရသေး</button>
+                        <button class="tab-btn" onclick="setStatusFilter('ချုပ်နေဆဲ', this)">🧵 ချုပ်နေဆဲ</button>
+                        <button class="tab-btn" onclick="setStatusFilter('ချုပ်ပြီး', this)">✅ ချုပ်ပြီး</button>
+                        <button class="tab-btn" onclick="setStatusFilter('လာရွေးပြီး', this)">🛍️ လာရွေးပြီး</button>
+                    </div>
+                </div>
+
+                <!-- Records Container -->
+                <div id="recordsList"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div class="modal-overlay" id="receiptModal">
+        <div class="modal-box">
+            <div id="receiptContent" class="receipt-paper"></div>
+            <div style="display:flex; gap:8px; margin-top:14px;" class="no-print">
+                <button class="btn-submit" style="margin-top:0; flex:1;" onclick="copyReceiptText()">
+                    <i class="fa-regular fa-copy"></i> စာသား Copy ကူးမည်
+                </button>
+                <button class="btn-tool" onclick="window.print()">
+                    <i class="fa-solid fa-print"></i> Print
+                </button>
+                <button class="btn-tool" onclick="closeReceiptModal()">
+                    ပိတ်မည်
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'tailorShopProRecords_v2';
+        let currentPhotoData = '';
+        let activeMeasureInput = document.getElementById('chest');
+        let currentStatusFilter = 'အားလုံး';
+        let currentReceiptText = '';
+
+        // ယနေ့ရက်စွဲကို Default ထည့်ပေးထားရန်
+        document.getElementById('orderDate').valueAsDate = new Date();
+
+        // နောက်ဆုံးနှိပ်ထားသော အတိုင်းအတာ အကွက်ကို မှတ်ထားရန် (¼, ½, ¾ ထည့်ရန်အတွက်)
+        document.querySelectorAll('.measure-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                activeMeasureInput = this;
+            });
+        });
+
+        function insertFraction(frac) {
+            if (activeMeasureInput) {
+                activeMeasureInput.value = activeMeasureInput.value.trim() + frac;
+                activeMeasureInput.focus();
+            }
+        }
+
+        // ချုပ်ခ နှင့် စရန်ငွေမှ ကျန်ငွေကို အလိုအလျောက် တွက်ပေးရန်
+        function calcBalance() {
+            const total = parseFloat(document.getElementById('totalPrice').value) || 0;
+            const advance = parseFloat(document.getElementById('advancePaid').value) || 0;
+            const balance = Math.max(0, total - advance);
+            document.getElementById('balanceDue').value = balance;
+        }
+
+        // ဓာတ်ပုံကို ဆိုဒ်ချုံ့ပြီး Base64 ပြောင်းရန်
+        function handlePhotoUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const maxSize = 500;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height && width > maxSize) {
+                        height *= maxSize / width;
+                        width = maxSize;
+                    } else if (height > maxSize) {
+                        width *= maxSize / height;
+                        height = maxSize;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    currentPhotoData = canvas.toDataURL('image/jpeg', 0.75);
+                    document.getElementById('photoPreview').src = currentPhotoData;
+                    document.getElementById('photoPreviewWrapper').style.display = 'block';
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removePhoto() {
+            currentPhotoData = '';
+            document.getElementById('photoInput').value = '';
+            document.getElementById('photoPreviewWrapper').style.display = 'none';
+        }
+
+        // LocalStorage မှ စာရင်းယူရန် (နမူနာလူစာရင်း လုံးဝမပါဝင်ပါ)
+        function getRecords() {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        }
+
+        function saveRecords(records) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+            renderRecords();
+        }
+
+        function setStatusFilter(status, btn) {
+            currentStatusFilter = status;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderRecords();
+        }
+
+        // Dashboard နှင့် စာရင်းများကို ဖော်ပြရန်
+        function renderRecords() {
+            const records = getRecords();
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+            const listContainer = document.getElementById('recordsList');
+
+            // Update Stats
+            const activeCount = records.filter(r => r.status === 'မညှပ်ရသေး' || r.status === 'ချုပ်နေဆဲ').length;
+            const readyCount = records.filter(r => r.status === 'ချုပ်ပြီး').length;
+            const totalBalance = records.reduce((sum, r) => {
+                return r.status !== 'လာရွေးပြီး' ? sum + (parseFloat(r.balanceDue) || 0) : sum;
+            }, 0);
+
+            document.getElementById('statTotal').textContent = `${records.length} ခု`;
+            document.getElementById('statActive').textContent = `${activeCount} ခု`;
+            document.getElementById('statReady').textContent = `${readyCount} ခု`;
+            document.getElementById('statBalance').textContent = `${totalBalance.toLocaleString()} ကျပ်`;
+            document.getElementById('recordCountBadge').textContent = `${records.length} ဦး`;
+
+            // Filter records
+            const filtered = records.map((rec, idx) => ({ ...rec, originalIndex: idx })).filter(rec => {
+                const matchesSearch = rec.name.toLowerCase().includes(searchQuery) ||
+                                      (rec.phone && rec.phone.includes(searchQuery));
+                const matchesStatus = currentStatusFilter === 'အားလုံး' || rec.status === currentStatusFilter;
+                return matchesSearch && matchesStatus;
+            });
+
+            listContainer.innerHTML = '';
+
+            if (filtered.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-tape"></i>
+                        <h3>မှတ်တမ်း မရှိသေးပါ</h3>
+                        <p style="font-size:13px; margin-top:4px;">ဘယ်ဘက်ခြမ်းရှိ ဖောင်တွင် အပ်ထည်ရှင်၏ အချက်အလက်များကို ဖြည့်သွင်းပြီး သိမ်းဆည်းနိုင်ပါသည်။</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(rec => {
+                const balance = parseFloat(rec.balanceDue) || 0;
+                const card = document.createElement('div');
+                card.className = 'record-card';
+
+                card.innerHTML = `
+                    <div class="record-header">
+                        <div>
+                            <div class="customer-title">
+                                <i class="fa-solid fa-circle-user" style="color:var(--primary);"></i>
+                                ${rec.name}
+                            </div>
+                            ${rec.phone ? `<a href="tel:${rec.phone}" class="customer-phone"><i class="fa-solid fa-phone-volume"></i> ${rec.phone}</a>` : ''}
+                        </div>
+                        <span class="status-badge status-${rec.status}">${rec.status}</span>
+                    </div>
+
+                    <div class="m-grid">
+                        <div class="m-item"><span>ရင်</span><strong>${rec.chest || '-'}</strong></div>
+                        <div class="m-item"><span>လက်</span><strong>${rec.sleeve || '-'}</strong></div>
+                        <div class="m-item"><span>ခါး</span><strong>${rec.waist || '-'}</strong></div>
+                        <div class="m-item"><span>တင်</span><strong>${rec.hip || '-'}</strong></div>
+                        ${rec.shoulder ? `<div class="m-item"><span>ပခုံး</span><strong>${rec.shoulder}</strong></div>` : ''}
+                        ${rec.topLength ? `<div class="m-item"><span>အင်္ကျီရှည်</span><strong>${rec.topLength}</strong></div>` : ''}
+                        ${rec.armhole ? `<div class="m-item"><span>ချိုင်း</span><strong>${rec.armhole}</strong></div>` : ''}
+                        ${rec.cuff ? `<div class="m-item"><span>လက်ဝ</span><strong>${rec.cuff}</strong></div>` : ''}
+                        ${rec.neck ? `<div class="m-item"><span>လည်ပင်း</span><strong>${rec.neck}</strong></div>` : ''}
+                        ${rec.bottomLength ? `<div class="m-item"><span>ထမီ/ဘောင်းဘီ</span><strong>${rec.bottomLength}</strong></div>` : ''}
+                    </div>
+
+                    <div class="meta-strip">
+                        <div>
+                            <i class="fa-regular fa-calendar" style="color:var(--gray);"></i>
+                            ရက်ချိန်း: <strong>${rec.dueDate || 'မသတ်မှတ်ထား'}</strong>
+                        </div>
+                        <div>
+                            ချုပ်ခ: <strong>${(parseFloat(rec.totalPrice) || 0).toLocaleString()}</strong> |
+                            စရန်: <strong>${(parseFloat(rec.advancePaid) || 0).toLocaleString()}</strong> |
+                            ကျန်ငွေ: <span class="${balance > 0 ? 'balance-due' : 'balance-paid'}">${balance.toLocaleString()} ကျပ်</span>
+                        </div>
+                    </div>
+
+                    ${(rec.photo || rec.note) ? `
+                        <div class="record-photo-note">
+                            ${rec.photo ? `<img src="${rec.photo}" class="record-thumb" alt="Fabric">` : ''}
+                            ${rec.note ? `<div class="record-note-box"><strong>မှတ်စု:</strong> ${rec.note}</div>` : ''}
+                        </div>
+                    ` : ''}
+
+                    <div class="card-actions">
+                        <select onchange="quickStatusChange(${rec.originalIndex}, this.value)" style="width:auto; padding:5px 10px; font-size:12px;">
+                            <option value="မညှပ်ရသေး" ${rec.status === 'မညှပ်ရသေး' ? 'selected' : ''}>✂️ မညှပ်ရသေး</option>
+                            <option value="ချုပ်နေဆဲ" ${rec.status === 'ချုပ်နေဆဲ' ? 'selected' : ''}>🧵 ချုပ်နေဆဲ</option>
+                            <option value="ချုပ်ပြီး" ${rec.status === 'ချုပ်ပြီး' ? 'selected' : ''}>✅ ချုပ်ပြီး</option>
+                            <option value="လာရွေးပြီး" ${rec.status === 'လာရွေးပြီး' ? 'selected' : ''}>🛍️ လာရွေးပြီး</option>
+                        </select>
+
+                        <div class="action-group">
+                            <button class="btn-action btn-receipt" onclick="openReceipt(${rec.originalIndex})">
+                                <i class="fa-solid fa-receipt"></i> ဘောင်ချာ
+                            </button>
+                            <button class="btn-action btn-edit" onclick="editRecord(${rec.originalIndex})">
+                                <i class="fa-solid fa-pen-to-square"></i> ပြင်ရန်
+                            </button>
+                            <button class="btn-action btn-delete" onclick="deleteRecord(${rec.originalIndex})">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                listContainer.appendChild(card);
+            });
+        }
+
+        // ဖောင် Submit လုပ်ခြင်း (အသစ်သိမ်း / ပြန်ပြင်)
+        document.getElementById('tailorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const editIndex = parseInt(document.getElementById('editIndex').value);
+            const recordData = {
+                name: document.getElementById('name').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                orderDate: document.getElementById('orderDate').value,
+                dueDate: document.getElementById('dueDate').value,
+                chest: document.getElementById('chest').value.trim(),
+                sleeve: document.getElementById('sleeve').value.trim(),
+                waist: document.getElementById('waist').value.trim(),
+                hip: document.getElementById('hip').value.trim(),
+                shoulder: document.getElementById('shoulder').value.trim(),
+                topLength: document.getElementById('topLength').value.trim(),
+                armhole: document.getElementById('armhole').value.trim(),
+                cuff: document.getElementById('cuff').value.trim(),
+                neck: document.getElementById('neck').value.trim(),
+                bottomLength: document.getElementById('bottomLength').value.trim(),
+                totalPrice: document.getElementById('totalPrice').value || 0,
+                advancePaid: document.getElementById('advancePaid').value || 0,
+                balanceDue: document.getElementById('balanceDue').value || 0,
+                status: document.getElementById('status').value,
+                note: document.getElementById('note').value.trim(),
+                photo: currentPhotoData
+            };
+
+            const records = getRecords();
+            if (editIndex >= 0) {
+                records[editIndex] = recordData;
+            } else {
+                records.unshift(recordData);
+            }
+
+            saveRecords(records);
+            resetFormState();
+        });
+
+        function resetFormState() {
+            document.getElementById('tailorForm').reset();
+            document.getElementById('orderDate').valueAsDate = new Date();
+            document.getElementById('editIndex').value = '-1';
+            document.getElementById('formTitle').innerHTML = '<i class="fa-solid fa-file-circle-plus" style="color:var(--primary);"></i> အပ်ထည်အသစ် မှတ်သားရန်';
+            document.getElementById('submitBtn').innerHTML = '<i class="fa-solid fa-floppy-disk"></i> မှတ်တမ်း သိမ်းဆည်းမည်';
+            document.getElementById('cancelBtn').style.display = 'none';
+            removePhoto();
+        }
+
+        function editRecord(index) {
+            const rec = getRecords()[index];
+            if (!rec) return;
+
+            document.getElementById('editIndex').value = index;
+            document.getElementById('name').value = rec.name || '';
+            document.getElementById('phone').value = rec.phone || '';
+            document.getElementById('orderDate').value = rec.orderDate || '';
+            document.getElementById('dueDate').value = rec.dueDate || '';
+            document.getElementById('chest').value = rec.chest || '';
+            document.getElementById('sleeve').value = rec.sleeve || '';
+            document.getElementById('waist').value = rec.waist || '';
+            document.getElementById('hip').value = rec.hip || '';
+            document.getElementById('shoulder').value = rec.shoulder || '';
+            document.getElementById('topLength').value = rec.topLength || '';
+            document.getElementById('armhole').value = rec.armhole || '';
+            document.getElementById('cuff').value = rec.cuff || '';
+            document.getElementById('neck').value = rec.neck || '';
+            document.getElementById('bottomLength').value = rec.bottomLength || '';
+            document.getElementById('totalPrice').value = rec.totalPrice || '';
+            document.getElementById('advancePaid').value = rec.advancePaid || '';
+            document.getElementById('balanceDue').value = rec.balanceDue || '';
+            document.getElementById('status').value = rec.status || 'မညှပ်ရသေး';
+            document.getElementById('note').value = rec.note || '';
+
+            if (rec.photo) {
+                currentPhotoData = rec.photo;
+                document.getElementById('photoPreview').src = rec.photo;
+                document.getElementById('photoPreviewWrapper').style.display = 'block';
+            } else {
+                removePhoto();
+            }
+
+            document.getElementById('formTitle').innerHTML = '<i class="fa-solid fa-pen-to-square" style="color:var(--warning);"></i> မှတ်တမ်း ပြန်လည်ပြင်ဆင်ရန်';
+            document.getElementById('submitBtn').innerHTML = '<i class="fa-solid fa-check"></i> ပြင်ဆင်ချက် သိမ်းမည်';
+            document.getElementById('cancelBtn').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function quickStatusChange(index, newStatus) {
+            const records = getRecords();
+            records[index].status = newStatus;
+            saveRecords(records);
+        }
+
+        function deleteRecord(index) {
+            if (confirm('ဤအပ်ထည်မှတ်တမ်းကို ဖျက်ရန် သေချာပါသလား?')) {
+                const records = getRecords();
+                records.splice(index, 1);
+                saveRecords(records);
+            }
+        }
+
+        // ဘောင်ချာ ထုတ်ပေးခြင်း
+        function openReceipt(index) {
+            const rec = getRecords()[index];
+            if (!rec) return;
+
+            currentReceiptText = `✂️ အပ်ထည်ဘောင်ချာ ✂️\nအမည် - ${rec.name}\nဖုန်း - ${rec.phone || '-'}\nအပ်ရက် - ${rec.orderDate || '-'}\nရက်ချိန်း - ${rec.dueDate || '-'}\n----------------\nရင်: ${rec.chest} | လက်: ${rec.sleeve} | ခါး: ${rec.waist} | တင်: ${rec.hip}\n----------------\nချုပ်ခ စုစုပေါင်း - ${Number(rec.totalPrice).toLocaleString()} ကျပ်\nစရန်ငွေ - ${Number(rec.advancePaid).toLocaleString()} ကျပ်\nကျန်ငွေ - ${Number(rec.balanceDue).toLocaleString()} ကျပ်\nအခြေအနေ - ${rec.status}`;
+
+            document.getElementById('receiptContent').innerHTML = `
+                <div class="receipt-header">
+                    <h3 style="color:var(--primary);"><i class="fa-solid fa-scissors"></i> အပ်ထည်ဘောင်ချာ</h3>
+                    <p style="font-size:12px; color:var(--gray);">အပ်ထည်လက်ခံဖြတ်ပိုင်း</p>
+                </div>
+                <div class="receipt-row"><span>အပ်ထည်ရှင် အမည်:</span><strong>${rec.name}</strong></div>
+                <div class="receipt-row"><span>ဖုန်းနံပါတ်:</span><strong>${rec.phone || '-'}</strong></div>
+                <div class="receipt-row"><span>အပ်သည့်ရက်:</span><strong>${rec.orderDate || '-'}</strong></div>
+                <div class="receipt-row"><span>ရက်ချိန်း (ရမည့်ရက်):</span><strong>${rec.dueDate || '-'}</strong></div>
+                <hr style="border:none; border-top:1px dashed #cbd5e1; margin:10px 0;">
+                <div style="font-size:13px; margin-bottom:8px;">
+                    <strong>အတိုင်းအတာ:</strong> ရင် (${rec.chest})၊ လက် (${rec.sleeve})၊ ခါး (${rec.waist})၊ တင် (${rec.hip})
+                </div>
+                ${rec.note ? `<div style="font-size:12px; color:var(--gray); margin-bottom:8px;">မှတ်စု: ${rec.note}</div>` : ''}
+                <hr style="border:none; border-top:1px dashed #cbd5e1; margin:10px 0;">
+                <div class="receipt-row"><span>ချုပ်ခ စုစုပေါင်း:</span><strong>${Number(rec.totalPrice).toLocaleString()} ကျပ်</strong></div>
+                <div class="receipt-row"><span>စရန်ငွေ:</span><strong>${Number(rec.advancePaid).toLocaleString()} ကျပ်</strong></div>
+                <div class="receipt-row" style="font-size:15px; color:var(--danger);"><span>ပေးရန်ကျန်ငွေ:</span><strong>${Number(rec.balanceDue).toLocaleString()} ကျပ်</strong></div>
+            `;
+            document.getElementById('receiptModal').style.display = 'flex';
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('receiptModal').style.display = 'none';
+        }
+
+        function copyReceiptText() {
+            navigator.clipboard.writeText(currentReceiptText).then(() => {
+                alert('ဘောင်ချာစာသားကို Copy ကူးပြီးပါပြီ။ Viber သို့မဟုတ် Messenger တွင် Paste ချပြီး ပို့နိုင်ပါသည်။');
+            });
+        }
+
+        // Data Backup (Export & Import)
+        function exportData() {
+            const records = getRecords();
+            if (records.length === 0) {
+                alert('သိမ်းဆည်းရန် မှတ်တမ်း မရှိသေးပါ။');
+                return;
+            }
+            const blob = new Blob([JSON.stringify(records, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `tailor_backup_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (Array.isArray(imported)) {
+                        saveRecords(imported);
+                        alert('စာရင်းများ အောင်မြင်စွာ ပြန်ထည့်သွင်းပြီးပါပြီ။');
+                    }
+                } catch (err) {
+                    alert('ဖိုင်ပုံစံ မှားယွင်းနေပါသည်။');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // စတင်ဖွင့်ချိန်တွင် စာရင်းပြရန်
+       renderRecords();
+    </script>
+</body>
+</html>
